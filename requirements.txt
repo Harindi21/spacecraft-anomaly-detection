@@ -1,0 +1,12 @@
+# Core (the live demo runs with just these)
+numpy>=1.24
+pandas>=2.0
+
+# Production LSTM forecaster for the real SMAP/MSL data
+tensorflow>=2.12   # provides tensorflow.keras
+
+# Optional: plotting the error signal and thresholds
+matplotlib>=3.7
+
+# Optional: for downloading the dataset via the Kaggle API
+kaggle>=1.6
