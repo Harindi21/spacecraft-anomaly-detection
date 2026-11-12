@@ -1,5 +1,7 @@
 # Spacecraft Telemetry Anomaly Detection (NASA SMAP/MSL)
 
+[![CI](https://github.com/Harindi21/spacecraft-anomaly-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/Harindi21/spacecraft-anomaly-detection/actions/workflows/ci.yml)
+
 Unsupervised anomaly detection for multichannel spacecraft telemetry, modeled on
 NASA JPL's **Telemanom** method (Hundman et al., *Detecting Spacecraft Anomalies
 Using LSTMs and Nonparametric Dynamic Thresholding*, KDD 2018).
@@ -27,6 +29,14 @@ pip install numpy pandas
 python run_demo.py
 ```
 
+It prints raw and point-adjusted precision/recall/F1 and writes `detection.svg`:
+
+![Example detection output](detection.svg)
+
+*Top: one telemetry channel, with ground-truth anomaly spans shaded grey and the
+detector's flags in red. Bottom: the smoothed prediction error and its
+automatically chosen threshold.*
+
 ## Run on the real NASA data
 
 1. Download the SMAP/MSL benchmark (Kaggle):
@@ -53,8 +63,20 @@ python run_demo.py
 | `src/threshold.py` | Nonparametric dynamic thresholding + sequence pruning |
 | `src/pipeline.py` | forecast → error → per-channel threshold → flags |
 | `src/evaluate.py` | Precision / recall / F1 (raw and point-adjusted) |
-| `run_demo.py` | End-to-end demo on synthetic data |
+| `src/plotting.py` | Dependency-free SVG renderer for detection figures |
+| `run_demo.py` | End-to-end demo on synthetic data (writes `detection.svg`) |
 | `main.py` | End-to-end run on the real benchmark |
+| `tests/` | `pytest` suite covering every module |
+
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest -q
+```
+
+The suite (24 tests) runs on NumPy alone and is exercised on every push by the
+GitHub Actions workflow in `.github/workflows/ci.yml`.
 
 ## Notes
 
